@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[993]:
+# In[133]:
 
 
 # 任意选一个你喜欢的整数，这能帮你得到稳定的结果
@@ -20,7 +20,7 @@ seed = 9999
 # 
 # ## 1.1 创建一个 4*4 的单位矩阵
 
-# In[994]:
+# In[134]:
 
 
 # 这个项目设计来帮你熟悉 python list 和线性代数
@@ -42,15 +42,15 @@ C = [[1],
      [3]]
 
 #TODO 创建一个 4*4 单位矩阵
-I = [[1,3,3,1],
-     [0,2,1,7],
-     [2,0,4,8],
-     [0,1,1,5]]
+I = [[1,0,0,0],
+     [0,1,0,0],
+     [0,0,1,0],
+     [0,0,0,1]]
 
 
 # ## 1.2 返回矩阵的行数和列数
 
-# In[995]:
+# In[135]:
 
 
 # TODO 返回矩阵的行数和列数
@@ -60,7 +60,7 @@ def shape(M):
     return row,col
 
 
-# In[996]:
+# In[136]:
 
 
 # 运行以下代码测试你的 shape 函数
@@ -69,7 +69,7 @@ get_ipython().magic(u'run -i -e test.py LinearRegressionTestCase.test_shape')
 
 # ## 1.3 每个元素四舍五入到特定小数数位
 
-# In[997]:
+# In[137]:
 
 
 # TODO 每个元素四舍五入到特定小数数位
@@ -86,7 +86,7 @@ def matxRound(M, decPts=4):
     pass
 
 
-# In[998]:
+# In[138]:
 
 
 # 运行以下代码测试你的 matxRound 函数
@@ -95,7 +95,7 @@ get_ipython().magic(u'run -i -e test.py LinearRegressionTestCase.test_matxRound'
 
 # ## 1.4 计算矩阵的转置
 
-# In[999]:
+# In[139]:
 
 
 # TODO 计算矩阵的转置
@@ -111,11 +111,23 @@ def transpose(m):
 #     for i in m:
 #         for j in range(len(i)):
 #             a[j].append(i[j])
-    a = [[row[col] for row in m] for col in range(len(m[0]))]
-    return a
+
+    """
+    [[1,2,3],[4,5,6],[7,8,9]]
+    *m会解压m，得到m的每一行[1,2,3],[4,5,6],[7,8,9]
+    zip会迭代*m的list集合，每次迭代把这些list同一位置的元素，因此col每次都是m的一列
+    list(col)就把每列生成了一个list，作为新矩阵的行元素，这样就完成了转置
+    
+    这种实现比起我的实现有三个有点：代码精简，可读性高，只有一次循环效率高。
+    """
+    return [list(col) for col in zip(*m)]
 
 
-# In[1000]:
+#    a = [[row[col] for row in m] for col in range(len(m[0]))]
+#    return a
+
+
+# In[140]:
 
 
 # 运行以下代码测试你的 transpose 函数
@@ -124,7 +136,7 @@ get_ipython().magic(u'run -i -e test.py LinearRegressionTestCase.test_transpose'
 
 # ## 1.5 计算矩阵乘法 AB
 
-# In[1001]:
+# In[141]:
 
 
 # TODO 计算矩阵乘法 AB，如果无法相乘则raise ValueError
@@ -139,10 +151,11 @@ def matxMultiply(A, B):
                     res[i][j] += A[i][k] * B[k][j]
         return res
     except ValueError:
-        raise ValueError("matrixA cannot multiply matrixB")
+        print("matrixA cannot multiply matrixB")
+        raise ValueError("params error")
 
 
-# In[1002]:
+# In[142]:
 
 
 # 运行以下代码测试你的 matxMultiply 函数
@@ -176,7 +189,7 @@ get_ipython().magic(u'run -i -e test.py LinearRegressionTestCase.test_matxMultip
 #     ...    & ... & ... & ...& ...\\
 #     a_{n1}    & a_{n2} & ... & a_{nn} & b_{n} \end{bmatrix}$
 
-# In[1003]:
+# In[143]:
 
 
 # TODO 构造增广矩阵，假设A，b行数相同
@@ -189,7 +202,7 @@ def augmentMatrix(A, b):
     return res
 
 
-# In[1004]:
+# In[144]:
 
 
 # 运行以下代码测试你的 augmentMatrix 函数
@@ -201,7 +214,7 @@ get_ipython().magic(u'run -i -e test.py LinearRegressionTestCase.test_augmentMat
 # - 把某行乘以一个非零常数
 # - 把某行加上另一行的若干倍：
 
-# In[1005]:
+# In[145]:
 
 
 # TODO r1 <---> r2
@@ -211,14 +224,14 @@ def swapRows(M, r1, r2):
     pass
 
 
-# In[1006]:
+# In[146]:
 
 
 # 运行以下代码测试你的 swapRows 函数
 get_ipython().magic(u'run -i -e test.py LinearRegressionTestCase.test_swapRows')
 
 
-# In[1007]:
+# In[147]:
 
 
 # TODO r1 <--- r1 * scale
@@ -232,17 +245,16 @@ def scaleRow(M, r, scale):
             M[r][i] *= scale
     except ValueError:
         raise ValueError("scale cannot be zero")
-    pass
 
 
-# In[1008]:
+# In[148]:
 
 
 # 运行以下代码测试你的 scaleRow 函数
 get_ipython().magic(u'run -i -e test.py LinearRegressionTestCase.test_scaleRow')
 
 
-# In[1009]:
+# In[149]:
 
 
 # TODO r1 <--- r1 + r2*scale
@@ -258,7 +270,7 @@ def addScaledRow(M, r1, r2, scale):
     pass
 
 
-# In[1010]:
+# In[150]:
 
 
 # 运行以下代码测试你的 addScaledRow 函数
@@ -293,7 +305,7 @@ get_ipython().magic(u'run -i -e test.py LinearRegressionTestCase.test_addScaledR
 # 
 # 为了充分了解Gaussian Jordan消元法的计算流程，请根据Gaussian Jordan消元法，分别手动推演矩阵A为***可逆矩阵***，矩阵A为***奇异矩阵***两种情况。
 
-# In[1011]:
+# In[151]:
 
 
 # 不要修改这里！
@@ -360,7 +372,7 @@ printInMatrixFormat(Ab,padding=4,truncating=0)
 #     
 # $...$
 
-# In[1012]:
+# In[152]:
 
 
 # 不要修改这里！
@@ -409,7 +421,7 @@ printInMatrixFormat(Ab,padding=4,truncating=0)
 
 # ### 2.3.3 实现 Gaussian Jordan 消元法
 
-# In[1013]:
+# In[153]:
 
 
 # TODO 实现 Gaussain Jordan 方法求解 Ax = b
@@ -465,7 +477,7 @@ def gj_Solve(A, b, decPts=4, epsilon = 1.0e-16):
     return res
 
 
-# In[1014]:
+# In[154]:
 
 
 # 运行以下代码测试你的 gj_Solve 函数
@@ -500,7 +512,7 @@ get_ipython().magic(u'run -i -e test.py LinearRegressionTestCase.test_gj_Solve')
 
 # ## 3.1 随机生成样本点
 
-# In[1015]:
+# In[155]:
 
 
 # 不要修改这里！
@@ -523,12 +535,12 @@ plt.show()
 # 
 # ### 3.2.1 猜测一条直线
 
-# In[1022]:
+# In[163]:
 
 
 #TODO 请选择最适合的直线 y = mx + b
-m = 4.5
-b = 9
+m = 1.6
+b = 8.5
 
 # 不要修改这里！
 plt.xlim((-5,5))
@@ -550,16 +562,16 @@ plt.show()
 # MSE = \frac{1}{n}\sum_{i=1}^{n}{(y_i - mx_i - b)^2}
 # $$
 
-# In[1023]:
+# In[164]:
 
 
 # TODO 实现以下函数并输出所选直线的MSE
 
 def calculateMSE(X,Y,m,b):
-    sum = 0.
+    total = 0.
     for i in range(len(X)):
-        sum += (Y[i] - m * X[i] - b) ** 2
-    return sum / len(X)
+        total += (Y[i] - m * X[i] - b) ** 2
+    return total / len(X)
 
 print(calculateMSE(X,Y,m,b))
 
@@ -568,7 +580,7 @@ print(calculateMSE(X,Y,m,b))
 # 
 # 你可以调整3.2.1中的参数 $m,b$ 让蓝点均匀覆盖在红线周围，然后微调 $m, b$ 让MSE最小。
 # 
-# m从4.5调整到4.4, b从9变为10，MSE从5.13429893759降低到3.49974382431
+# m从1.5调整到1.6, b从9变为8.5，MSE从1.53109629231降低到1.10857399766
 
 # ## 3.3 (选做) 找到参数 $m, b$ 使得平方平均误差最小
 # 
@@ -674,7 +686,7 @@ print(calculateMSE(X,Y,m,b))
 # 
 # 在3.3 中，我们知道线性回归问题等价于求解 $X^TXh = X^TY$ (如果你选择不做3.3，就勇敢的相信吧，哈哈)
 
-# In[1051]:
+# In[158]:
 
 
 # TODO 实现线性回归
@@ -688,17 +700,22 @@ def linearRegression(X,Y):
     IX = [[1]] * len(X)
     EX = augmentMatrix(MX, IX)
     EXT = transpose(EX)
-    h = matxMultiply(EXT, MY)
-    return h[0][0],h[1][0]
+    XTY = matxMultiply(EXT, MY)
+    XTX = matxMultiply(EXT, EX)
+    h = gj_Solve(XTX, XTY)
+
+    return h[0][0], h[1][0]
 
 m,b = linearRegression(X,Y)
 print(m,b)
+mse = calculateMSE(X,Y,m,b)
+print(mse)
 
 
 # 你求得的回归结果是什么？
 # 请使用运行以下代码将它画出来。
 
-# In[1052]:
+# In[159]:
 
 
 # 请不要修改下面的代码
@@ -716,7 +733,7 @@ plt.show()
 
 # 你求得的回归结果对当前数据集的MSE是多少？
 
-# In[1053]:
+# In[160]:
 
 
 m,b = linearRegression(X,Y)
